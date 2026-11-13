@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Pokémon Hunt</title>
+<link rel="stylesheet" href="style.css"></head><body><div class="wrap">
+<div class="ball"></div><h1>Pokémon Hunt</h1><p class="sub">Scan any hidden card with your camera to start.</p>
+<div class="card"><p class="hint">Find all 8 Pokémon hidden around the house. Each one gives you a secret letter. The letters spell where the Master Ball is hiding!</p>
+<div class="badge" id="count"></div><div class="prog" id="prog"></div></div>
+<p class="small">Pokémon Hunt · scan the next card to keep going!</p></div>
+
+<script>
+(function(){
+  var KEY='pokehunt_caught';var n=8;var me=null;var caught=[];
+  try{caught=JSON.parse(localStorage.getItem(KEY)||'[]');if(me&&caught.indexOf(me)<0){caught.push(me);}localStorage.setItem(KEY,JSON.stringify(caught));}catch(e){}
+  var el=document.getElementById('prog');if(!el)return;var h='';
+  for(var i=1;i<=n;i++){h+='<span class="'+(caught.indexOf(i)>=0?'on':'')+'">'+i+'</span>';}
+  el.innerHTML=h;var b=document.getElementById('count');if(b)b.textContent=caught.length+' of '+n+' caught on this phone';
+})();
+</script></body></html>

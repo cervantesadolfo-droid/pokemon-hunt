@@ -1,0 +1,21 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>You caught Eevee!</title>
+<link rel="stylesheet" href="../style.css"></head><body><div class="wrap">
+<div class="ball"></div>
+<h1>You caught Eevee!</h1><p class="sub">Card #6 of 8</p>
+<div class="card"><img src="../img/eevee.png" alt="Eevee">
+<p class="hint">Your secret letter is</p><div class="letter">A</div>
+<p class="hint">Write <b>A</b> in blank <b>#6</b> on your Pokédex sheet.</p>
+<div class="badge" id="count"></div><div class="prog" id="prog"></div></div>
+<p class="hint">Catch all 8 and the letters spell where the <b>Master Ball</b> is hiding!</p>
+<p class="small">Pokémon Hunt · scan the next card to keep going!</p></div>
+
+<script>
+(function(){
+  var KEY='pokehunt_caught';var n=8;var me=6;var caught=[];
+  try{caught=JSON.parse(localStorage.getItem(KEY)||'[]');if(me&&caught.indexOf(me)<0){caught.push(me);}localStorage.setItem(KEY,JSON.stringify(caught));}catch(e){}
+  var el=document.getElementById('prog');if(!el)return;var h='';
+  for(var i=1;i<=n;i++){h+='<span class="'+(caught.indexOf(i)>=0?'on':'')+'">'+i+'</span>';}
+  el.innerHTML=h;var b=document.getElementById('count');if(b)b.textContent=caught.length+' of '+n+' caught on this phone';
+})();
+</script></body></html>
