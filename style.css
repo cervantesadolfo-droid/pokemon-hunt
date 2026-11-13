@@ -14,3 +14,4 @@ h1{font-size:28px;margin:8px 0}.sub{font-size:18px;color:#555;margin:0 0 16px}
 .btn.alt{background:var(--dark)}
 .prog{display:flex;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap}.prog span{width:34px;height:34px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}.prog span.on{background:#F4D03F}
 .small{font-size:13px;color:#777;margin-top:20px}
+.vid{width:100%;max-width:440px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.15);background:#000}

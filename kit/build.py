@@ -70,7 +70,7 @@ def placeholder(name, color, size=(600, 600), text="Add picture"):
 # ---------- reset output ----------
 for d in (SITE, PRINT):
     shutil.rmtree(d, ignore_errors=True)
-for d in (SITE/"catch", SITE/"prize", SITE/"img", PRINT/"qr", IMAGES, COLORING):
+for d in (SITE/"catch", SITE/"prize", SITE/"img", SITE/"assets", PRINT/"qr", IMAGES, COLORING):
     d.mkdir(parents=True, exist_ok=True)
 
 # ---------- images for web ----------
@@ -116,8 +116,10 @@ h1{font-size:28px;margin:8px 0}.sub{font-size:18px;color:#555;margin:0 0 16px}
 .btn.alt{background:var(--dark)}
 .prog{display:flex;gap:6px;justify-content:center;margin-top:14px;flex-wrap:wrap}.prog span{width:34px;height:34px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}.prog span.on{background:#F4D03F}
 .small{font-size:13px;color:#777;margin-top:20px}
+.vid{width:100%;max-width:440px;border-radius:20px;box-shadow:0 8px 24px rgba(0,0,0,.15);background:#000}
 """
 (SITE/"style.css").write_text(CSS)
+for f in (ROOT/"assets").glob("*"): shutil.copy(f, SITE/"assets"/f.name)
 
 PROGRESS_JS = """
 <script>
@@ -159,7 +161,10 @@ mail_body = (f"Congratulations, Master Trainer!\n\nHere are the Pokémon colorin
 from urllib.parse import quote
 mailto = f"mailto:?subject={quote(subject)}&body={quote(mail_body)}"
 body = f"""
-<h1>MASTER TRAINER!</h1><p class="sub">You found the Master Ball!</p>
+<h1>MASTER TRAINER!</h1>
+<video class="vid" autoplay muted loop playsinline poster="../assets/master-ball-poster.jpg" onclick="this.muted=!this.muted">
+<source src="../assets/master-ball.mp4" type="video/mp4"></video>
+<p class="small" style="margin:4px 0 12px">Tap the video for sound</p>
 <div class="card"><p class="hint">You caught all {len(POKEMON)} Pokémon. Your prize: a coloring book of every Pokémon you found.</p>
 <a class="btn" href="../coloring-pack.pdf" download="pokemon-coloring-pages.pdf">⬇ Download coloring pages</a>
 <a class="btn alt" href="{html.escape(mailto)}">✉ Email them to me</a>
