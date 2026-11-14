@@ -105,16 +105,33 @@ c.setFont("Helvetica", 14); c.drawCentredString(W/2, 1.35*inch, "This book belon
 c.setFont("Helvetica", 11); c.drawCentredString(W/2, 0.7*inch, "Color every Pokémon you caught at the party!")
 c.showPage()
 
-# ================= PAGES 2–9 — ONE POKÉMON EACH =================
+# ================= PAGES 2–9 — ONE POKÉMON + ONE ACTIVITY EACH =================
+from activities import ACTIVITIES
 for i, slug in enumerate(POKEMON, start=1):
-    box = (0.8*inch, 1.5*inch, W-0.8*inch, H-1.7*inch)
-    party_background(box, (1.3*inch, H-1.55*inch, W-1.3*inch, H-0.9*inch), (1.5*inch, 0.5*inch, W-1.5*inch, 1.3*inch))
+    instr, draw = ACTIVITIES[slug]
+    badge = (0.7*inch, H-3.1*inch, 3.3*inch, H-0.9*inch)          # small Pokémon, top-left
+    act = (0.8*inch, 1.2*inch, W-0.8*inch, H-3.35*inch)           # activity area
+    party_background(act, badge, (3.3*inch, H-3.1*inch, W-0.6*inch, H-0.9*inch), (1.2*inch, 0.5*inch, W-1.2*inch, 1.2*inch))
     bunting(H-0.5*inch)
-    header(f"#{i}  {NAMES[slug]}", 32, H-1.3*inch)
-    frame(*box)
-    c.drawImage(str(ROOT/"lineart"/f"{slug}.png"), box[0]+18, box[1]+18, box[2]-box[0]-36, box[3]-box[1]-36, preserveAspectRatio=True, anchor="c", mask="auto")
-    c.setFont("Helvetica-Bold", 15); c.drawCentredString(W/2, 1.05*inch, f"Happy {AGE}th Birthday, {KID}!")
-    c.setFont("Helvetica", 11); c.drawCentredString(W/2, 0.7*inch, f"Caught at {KID}'s Pokémon Hunt  ·  Page {i+1} of 10")
+    # badge
+    c.saveState(); c.setLineWidth(2); c.roundRect(badge[0], badge[1], badge[2]-badge[0], badge[3]-badge[1], 14); c.restoreState()
+    c.drawImage(str(ROOT/"lineart"/f"{slug}.png"), badge[0]+8, badge[1]+8, badge[2]-badge[0]-16, badge[3]-badge[1]-16, preserveAspectRatio=True, anchor="c", mask="auto")
+    # title + instruction to the right of the badge
+    c.setFont("Helvetica-Bold", 28); c.drawString(3.5*inch, H-1.55*inch, f"#{i}  {NAMES[slug]}")
+    c.setFont("Helvetica-Bold", 13); c.drawString(3.5*inch, H-2.0*inch, "ACTIVITY:")
+    c.setFont("Helvetica", 12.5)
+    # wrap instruction
+    words, line, y = instr.split(), "", H-2.3*inch
+    for w in words:
+        if c.stringWidth(line+" "+w, "Helvetica", 12.5) > W-3.5*inch-0.7*inch: c.drawString(3.5*inch, y, line); line, y = w, y-17
+        else: line = (line+" "+w).strip()
+    c.drawString(3.5*inch, y, line)
+    frame(*act)
+    c.saveState(); c.setStrokeColor(INK); c.setFillColor(INK)
+    draw(c, (act[0]+22, act[1]+22, act[2]-22, act[3]-22))
+    c.restoreState()
+    c.setFont("Helvetica-Bold", 14); c.drawCentredString(W/2, 0.9*inch, f"Happy {AGE}th Birthday, {KID}!")
+    c.setFont("Helvetica", 10); c.drawCentredString(W/2, 0.62*inch, f"Caught at {KID}'s Pokémon Hunt  ·  Page {i+1} of 10")
     c.showPage()
 
 # ================= PAGE 10 — MASTER TRAINER CERTIFICATE =================
