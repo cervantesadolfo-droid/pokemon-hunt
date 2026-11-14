@@ -1,21 +1,18 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>You caught Pikachu!</title>
-<link rel="stylesheet" href="../style.css"><style>body{background-image:url(../assets/bg.svg)}</style></head><body><div class="wrap">
-<div class="ball"></div>
-<h1>You caught Pikachu!</h1><p class="sub">Card #1 of 8</p>
-<div class="card"><video class="vid" autoplay muted loop playsinline poster="../img/pikachu.png" onclick="this.muted=!this.muted"><source src="../assets/pikachu.mp4" type="video/mp4"></video><p class="small" style="margin:4px 0 8px">Tap the video for sound</p>
-<p class="hint">Your secret letter is</p><div class="letter">B</div>
-<p class="hint">Write <b>B</b> in blank <b>#1</b> on your Pokédex sheet.</p>
-<div class="badge" id="count"></div><div class="prog" id="prog"></div></div>
-<p class="hint" style="background:rgba(255,255,255,.9);border-radius:14px;padding:10px">Catch all 8 and the letters spell a secret place!</p>
-<p class="small">Pokémon Hunt · scan the next card to keep going!</p></div>
-
-<script>
-(function(){
-  var KEY='pokehunt_caught';var n=8;var me=1;var caught=[];
-  try{caught=JSON.parse(localStorage.getItem(KEY)||'[]');if(me&&caught.indexOf(me)<0){caught.push(me);}localStorage.setItem(KEY,JSON.stringify(caught));}catch(e){}
-  var el=document.getElementById('prog');if(!el)return;var h='';
-  for(var i=1;i<=n;i++){h+='<span class="'+(caught.indexOf(i)>=0?'on':'')+'">'+i+'</span>';}
-  el.innerHTML=h;var b=document.getElementById('count');if(b)b.textContent=caught.length+' of '+n+' caught on this phone';
-})();
-</script></body></html>
+<link rel="stylesheet" href="../style.css"><style>body{background-image:url(../assets/bg.svg)}</style></head>
+<body><div class="wrap"><div class="ball"></div>
+<div id="unreg" class="hidden"><h1>Not so fast!</h1><p class="sub">You found Pikachu, but your clock isn't running.</p>
+<div class="card"><p class="hint">Scan the <b>REGISTER</b> poster at the door first, then come back and scan this card again.</p>
+<a class="btn" href="../register.html">Register now</a></div></div>
+<div id="ok" class="hidden"><h1>You caught Pikachu!</h1><p class="sub">Card #1 of 8</p>
+<div class="card"><video class="vid" autoplay muted loop playsinline poster="../img/pikachu.png" onclick="this.muted=!this.muted"><source src="../assets/pikachu.mp4" type="video/mp4"></video><p class="small" style="margin:4px 0 8px">Tap the video for sound</p><div class="timer" id="timer">00:00</div>
+<div class="badge" id="count"></div><div class="prog" id="prog"></div>
+<p class="hint" id="next" style="margin-top:14px">Keep going, <b id="who"></b>! Find the next card.</p>
+<a class="btn gold hidden" id="prize" href="../prize/master-ball-7x4k.html">⭐ ALL 8 CAUGHT! Tap for your prize</a></div></div>
+<p class="small">Zeke's Pokémon Hunt</p></div>
+<script src="../hunt.js"></script><script>var s=HUNT.catchOne(1);
+if(!s){document.getElementById('unreg').classList.remove('hidden');}
+else{document.getElementById('ok').classList.remove('hidden');document.getElementById('who').textContent=s.name;HUNT.renderProg(s);HUNT.tick(s);
+ if(s.end){document.getElementById('next').classList.add('hidden');document.getElementById('prize').classList.remove('hidden');
+   setTimeout(function(){location.href='../prize/master-ball-7x4k.html';},4000);}}</script></body></html>

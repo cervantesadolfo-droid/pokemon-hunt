@@ -8,7 +8,7 @@ from reportlab.lib import colors
 from PIL import Image
 
 ROOT = Path(__file__).parent
-OUT = ROOT / "site" / "coloring-pack.pdf"
+OUT = ROOT / "activity-book.pdf"
 KID, AGE = "Zeke", 7
 POKEMON = ["pikachu","charmander","squirtle","bulbasaur","charizard","eevee","jigglypuff","snorlax"]
 NAMES = {p: p.capitalize() for p in POKEMON}

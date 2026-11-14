@@ -1,9 +1,10 @@
 {
   "base_url": "https://cervantesadolfo-droid.github.io/pokemon-hunt/",
-  "hiding_word": "BACKYARD",
-  "prize_url": "https://cervantesadolfo-droid.github.io/pokemon-hunt/prize/master-ball-7x4k.html",
-  "pack_url": "https://cervantesadolfo-droid.github.io/pokemon-hunt/coloring-pack.pdf",
-  "catch_urls": {
+  "register": "https://cervantesadolfo-droid.github.io/pokemon-hunt/register.html",
+  "admin": "https://cervantesadolfo-droid.github.io/pokemon-hunt/admin/gym-leader-9q2v.html",
+  "prize": "https://cervantesadolfo-droid.github.io/pokemon-hunt/prize/master-ball-7x4k.html",
+  "pack": "https://cervantesadolfo-droid.github.io/pokemon-hunt/coloring-pack.pdf",
+  "catch": {
     "Pikachu": "https://cervantesadolfo-droid.github.io/pokemon-hunt/catch/pikachu.html",
     "Charmander": "https://cervantesadolfo-droid.github.io/pokemon-hunt/catch/charmander.html",
     "Squirtle": "https://cervantesadolfo-droid.github.io/pokemon-hunt/catch/squirtle.html",

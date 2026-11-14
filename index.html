@@ -1,17 +1,15 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>Pokémon Hunt</title>
-<link rel="stylesheet" href="style.css"><style>body{background-image:url(assets/bg.svg)}</style></head><body><div class="wrap">
-<div class="ball"></div><h1>Pokémon Hunt</h1><p class="sub">Scan any hidden card with your camera to start.</p>
-<div class="card"><p class="hint">Find all 8 Pokémon hidden around the house. Each one gives you a secret letter. The letters spell where the Master Ball is hiding, and the Master Ball tells you where to get your prize!</p>
-<div class="badge" id="count"></div><div class="prog" id="prog"></div></div>
-<p class="small">Pokémon Hunt · scan the next card to keep going!</p></div>
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Zeke&#x27;s Pokémon Hunt</title>
+<link rel="stylesheet" href="style.css"><style>body{background-image:url(assets/bg.svg)}</style></head>
+<body><div class="wrap"><div class="ball"></div>
+<h1>Zeke's Pokémon Hunt</h1><p class="sub">Gotta catch 'em all... fast!</p>
+<div class="card" id="unreg"><p class="hint">Scan the <b>REGISTER</b> poster at the door to start your clock.</p>
+<a class="btn" href="register.html">Register now</a></div>
+<div class="card hidden" id="reg"><p class="hint">Trainer <b id="who"></b></p><div class="timer" id="timer">00:00</div>
+<div class="badge" id="count"></div><div class="prog" id="prog"></div>
+<p class="hint" style="margin-top:14px">Find the hidden cards and scan each one!</p></div>
 
-<script>
-(function(){
-  var KEY='pokehunt_caught';var n=8;var me=null;var caught=[];
-  try{caught=JSON.parse(localStorage.getItem(KEY)||'[]');if(me&&caught.indexOf(me)<0){caught.push(me);}localStorage.setItem(KEY,JSON.stringify(caught));}catch(e){}
-  var el=document.getElementById('prog');if(!el)return;var h='';
-  for(var i=1;i<=n;i++){h+='<span class="'+(caught.indexOf(i)>=0?'on':'')+'">'+i+'</span>';}
-  el.innerHTML=h;var b=document.getElementById('count');if(b)b.textContent=caught.length+' of '+n+' caught on this phone';
-})();
-</script></body></html>
+<p class="small">Zeke's Pokémon Hunt</p></div>
+<script src="hunt.js"></script><script>
+var s=HUNT.load(); if(s.start){document.getElementById('unreg').classList.add('hidden');document.getElementById('reg').classList.remove('hidden');
+document.getElementById('who').textContent=s.name;HUNT.renderProg(s);HUNT.tick(s);}</script></body></html>

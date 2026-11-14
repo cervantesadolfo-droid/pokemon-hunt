@@ -1,9 +1,7 @@
-# Pokémon QR Hunt
+# Zeke's Pokémon QR Hunt
 
-Birthday-party scavenger hunt. Each hidden card has a QR code that opens a page in `catch/`;
-the secret letters spell where the Master Ball (prize) card is hidden, which opens `prize/`.
+Birthday scavenger hunt with registration, a per-phone timer and a leaderboard for the host.
 
-- Site is served from the repo root via GitHub Pages.
-- `kit/build.py` regenerates the site and printables from one config block. Run it from `kit/`
-  after changing images, then copy `kit/site/*` to the repo root.
-- `kit/print/` has the hunt cards, Pokédex sheet and parent cheat sheet.
+- Site root is served by GitHub Pages. Pages: `register.html` (door QR), `catch/<pokemon>.html` (hunt cards), `prize/…` (auto after 8 catches), `admin/…` (host leaderboard).
+- `kit/build.py` regenerates the site and printables from one config block; `kit/coloring_book.py` builds the activity book. Run from `kit/`, then copy `kit/site/*` to the repo root.
+- `kit/print/` has the door poster, hunt cards, Pokédex checklist and the host-only admin sheet.

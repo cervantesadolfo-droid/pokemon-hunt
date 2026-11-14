@@ -1,0 +1,26 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Register</title>
+<link rel="stylesheet" href="style.css"><style>body{background-image:url(assets/bg.svg)}</style></head>
+<body><div class="wrap"><div class="ball"></div>
+<h1>Welcome, Trainer!</h1><p class="sub">Register to start the hunt</p>
+<div class="card" id="form">
+<ol class="steps"><li><b>8 Pokémon cards</b> are hidden around the house.</li>
+<li>Scan each card's QR code with <b>this phone</b> to catch it.</li>
+<li>Your clock starts <b>now</b> and stops when you catch the last one.</li>
+<li>Fastest trainers win a prize from Zeke's Dad!</li></ol>
+<input class="name" id="name" placeholder="Trainer name (or team name)" maxlength="30" autocomplete="off">
+<button class="btn" onclick="go()">Start the clock!</button>
+<p class="hint" style="font-size:14px">One registration per phone. Siblings sharing a phone can register as a team.</p></div>
+<div class="card hidden" id="done"><p class="hint">You're in, <b id="who"></b>!</p><div class="timer" id="timer">00:00</div>
+<p class="hint">Your clock is running. Go find card <b>#1</b>!</p>
+<div class="badge" id="count"></div><div class="prog" id="prog"></div>
+<a class="btn alt" href="index.html">My Pokédex</a>
+<button class="btn" style="background:#999;font-size:14px;padding:10px" onclick="reset()">Start over with a new name</button></div>
+
+<p class="small">Zeke's Pokémon Hunt</p></div>
+<script src="hunt.js"></script><script>
+function show(s){document.getElementById('form').classList.add('hidden');document.getElementById('done').classList.remove('hidden');
+document.getElementById('who').textContent=s.name;HUNT.renderProg(s);HUNT.tick(s);}
+function go(){var n=document.getElementById('name').value.trim();if(!n){alert('Type your trainer name first!');return;}show(HUNT.register(n));}
+function reset(){if(confirm('This erases this phone\'s progress and restarts the clock. Continue?')){localStorage.removeItem('pokehunt_v2');location.reload();}}
+var s=HUNT.load(); if(s.start) show(s);</script></body></html>
