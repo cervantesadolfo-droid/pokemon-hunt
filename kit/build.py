@@ -254,24 +254,9 @@ qr(reg_url, PRINT/"qr"/"register.png"); qr(admin_url, PRINT/"qr"/"admin.png")
 W, H = letter
 
 # --- door poster ---
-c = canvas.Canvas(str(PRINT/"door-poster.pdf"), pagesize=letter)
-c.setFillColor(colors.HexColor("#E3350D")); c.rect(0, H-1.6*inch, W, 1.6*inch, stroke=0, fill=1)
-c.setFillColor(colors.white); c.setFont("Helvetica-Bold", 34); c.drawCentredString(W/2, H-0.8*inch, f"{KID.upper()}'S POKÉMON HUNT")
-c.setFont("Helvetica-Bold", 18); c.drawCentredString(W/2, H-1.25*inch, "REGISTER HERE TO START YOUR CLOCK")
-c.setFillColor(colors.black)
-c.drawImage(str(PRINT/"qr"/"register.png"), W/2-1.9*inch, H-5.7*inch, 3.8*inch, 3.8*inch)
-c.setFont("Helvetica-Bold", 20); c.drawCentredString(W/2, H-6.1*inch, "Parents: scan with your phone camera")
-c.setFont("Helvetica", 13); c.drawCentredString(W/2, H-6.4*inch, "Type your trainer's name and tap  Start the clock!")
-c.setFont("Helvetica-Bold", 16); c.drawString(1.0*inch, H-7.1*inch, "HOW TO PLAY")
-c.setFont("Helvetica", 13.5); y = H-7.45*inch
-for line in [f"1.  {N} Pokémon cards are hidden around the house.",
-             "2.  Find a card and scan its QR code with the SAME phone you registered on.",
-             "3.  Each scan catches that Pokémon and shows your running time.",
-             f"4.  Catch all {N} and your clock stops. The prize screen appears!",
-             f"5.  Show the prize screen to {KID}'s Dad in the {PRIZE_SPOT.lower()}. Fastest trainers win!"]:
-    c.drawString(1.0*inch, y, line); y -= 0.32*inch
-c.setFont("Helvetica-Oblique", 11); c.drawCentredString(W/2, 0.7*inch, "No app needed. Any phone camera reads the codes. One registration per phone (teams welcome).")
-c.save()
+from poster import draw_poster
+draw_poster(PRINT/"door-poster.pdf", kid=KID, n=N, bg_png=ASSETS/"bg.png", qr_png=PRINT/"qr"/"register.png", cutouts=ROOT/"cutouts", prize_spot=PRIZE_SPOT)
+W, H = letter
 
 # --- hunt cards (2 per page) ---
 c = canvas.Canvas(str(PRINT/"hunt-cards.pdf"), pagesize=letter)
