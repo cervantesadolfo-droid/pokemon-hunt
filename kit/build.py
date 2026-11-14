@@ -101,13 +101,16 @@ c.save()
 
 # ---------- shared CSS ----------
 CSS = """
-:root{--red:#E3350D;--dark:#1b1f3b;--bg:#fff8e7}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--dark);text-align:center}
+:root{--red:#E3350D;--dark:#1b1f3b;--bg:#7CC55A}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg) center top/480px auto repeat-y;color:var(--dark);text-align:center;min-height:100vh}
 .wrap{max-width:480px;margin:0 auto;padding:24px 16px 48px}
 .ball{width:56px;height:56px;border-radius:50%;background:linear-gradient(#E3350D 0 48%,#1b1f3b 48% 52%,#fff 52%);margin:0 auto 12px;position:relative}
 .ball:after{content:"";position:absolute;left:50%;top:50%;width:16px;height:16px;border:4px solid #1b1f3b;border-radius:50%;background:#fff;transform:translate(-50%,-50%)}
 h1{font-size:28px;margin:8px 0}.sub{font-size:18px;color:#555;margin:0 0 16px}
-.card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(0,0,0,.08);margin:16px 0}
+.card{background:rgba(255,255,255,.94);border-radius:20px;padding:20px;box-shadow:0 8px 24px rgba(0,0,0,.18);margin:16px 0}
+h1,.sub{text-shadow:0 2px 0 rgba(255,255,255,.9),0 0 14px rgba(255,255,255,.9)}.sub{color:var(--dark)}
+.small{color:var(--dark);background:rgba(255,255,255,.7);display:inline-block;padding:4px 10px;border-radius:999px}
+.ball{box-shadow:0 4px 10px rgba(0,0,0,.25)}
 .card img{width:100%;max-width:300px;border-radius:16px}
 .letter{font-size:96px;font-weight:900;line-height:1;margin:8px 0;color:var(--red)}
 .hint{font-size:17px;line-height:1.4}.hint b{color:var(--red)}
@@ -136,7 +139,7 @@ def page(title, body, me="null", n=len(POKEMON), depth=1):
     rel = "../" * depth
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title>
-<link rel="stylesheet" href="{rel}style.css"></head><body><div class="wrap">
+<link rel="stylesheet" href="{rel}style.css"><style>body{{background-image:url({rel}assets/bg.svg)}}</style></head><body><div class="wrap">
 <div class="ball"></div>{body}
 <p class="small">Pokémon Hunt · scan the next card to keep going!</p></div>
 {PROGRESS_JS % (n, me)}</body></html>"""
@@ -144,13 +147,19 @@ def page(title, body, me="null", n=len(POKEMON), depth=1):
 # ---------- catch pages ----------
 for i, (slug, name, color) in enumerate(POKEMON, start=1):
     letter_ = HIDING_WORD[i-1]
+    vid = ROOT/"assets"/f"{slug}.mp4"
+    if vid.exists():
+        media = (f'<video class="vid" autoplay muted loop playsinline poster="../img/{slug}.png" onclick="this.muted=!this.muted">'
+                 f'<source src="../assets/{slug}.mp4" type="video/mp4"></video><p class="small" style="margin:4px 0 8px">Tap the video for sound</p>')
+    else:
+        media = f'<img src="../img/{slug}.png" alt="{html.escape(name)}">'
     body = f"""
 <h1>You caught {html.escape(name)}!</h1><p class="sub">Card #{i} of {len(POKEMON)}</p>
-<div class="card"><img src="../img/{slug}.png" alt="{html.escape(name)}">
+<div class="card">{media}
 <p class="hint">Your secret letter is</p><div class="letter">{letter_}</div>
 <p class="hint">Write <b>{letter_}</b> in blank <b>#{i}</b> on your Pokédex sheet.</p>
 <div class="badge" id="count"></div><div class="prog" id="prog"></div></div>
-<p class="hint">Catch all {len(POKEMON)} and the letters spell where the <b>Master Ball</b> is hiding!</p>"""
+<p class="hint" style="background:rgba(255,255,255,.9);border-radius:14px;padding:10px">Catch all {len(POKEMON)} and the letters spell a secret place!</p>"""
     (SITE/"catch"/f"{slug}.html").write_text(page(f"You caught {name}!", body, me=str(i)))
 
 # ---------- prize page ----------
@@ -165,7 +174,8 @@ body = f"""
 <video class="vid" autoplay muted loop playsinline poster="../assets/master-ball-poster.jpg" onclick="this.muted=!this.muted">
 <source src="../assets/master-ball.mp4" type="video/mp4"></video>
 <p class="small" style="margin:4px 0 12px">Tap the video for sound</p>
-<div class="card"><p class="hint">You caught all {len(POKEMON)} Pokémon. Your prize: a coloring book of every Pokémon you found.</p>
+<div class="card"><p class="hint" style="font-size:22px;font-weight:800">Find <b>Zeke's Dad</b> in the <b>{HIDING_WORD}</b> for your prize!</p>
+<p class="hint">You caught all {len(POKEMON)} Pokémon. Bonus: a coloring book of every Pokémon you found.</p>
 <a class="btn" href="../coloring-pack.pdf" download="pokemon-coloring-pages.pdf">⬇ Download coloring pages</a>
 <a class="btn alt" href="{html.escape(mailto)}">✉ Email them to me</a>
 <p class="small">"Email them to me" opens your mail app with the link already written. Send it to yourself and print at home.</p></div>
@@ -174,7 +184,7 @@ body = f"""
 
 # ---------- landing page ----------
 body = f"""<h1>Pokémon Hunt</h1><p class="sub">Scan any hidden card with your camera to start.</p>
-<div class="card"><p class="hint">Find all {len(POKEMON)} Pokémon hidden around the house. Each one gives you a secret letter. The letters spell where the Master Ball is hiding!</p>
+<div class="card"><p class="hint">Find all {len(POKEMON)} Pokémon hidden around the house. Each one gives you a secret letter. The letters spell where the Master Ball is hiding, and the Master Ball tells you where to get your prize!</p>
 <div class="badge" id="count"></div><div class="prog" id="prog"></div></div>"""
 (SITE/"index.html").write_text(page("Pokémon Hunt", body, depth=0))
 (SITE/".nojekyll").write_text("")
